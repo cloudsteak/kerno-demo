@@ -3,31 +3,31 @@ import type { Task, User, Priority, TaskStatus } from "../../shared/types"
 const users: User[] = [
   {
     id: "u1",
-    name: "Alexandra Kovács",
-    email: "a.kovacs@taskforge.io",
+    name: "Alice Morgan",
+    email: "a.morgan@taskforge.io",
     role: "manager",
-    avatarInitials: "AK",
+    avatarInitials: "AM",
   },
   {
     id: "u2",
-    name: "Bence Molnár",
-    email: "b.molnar@taskforge.io",
+    name: "Ben Carter",
+    email: "b.carter@taskforge.io",
     role: "lead",
-    avatarInitials: "BM",
+    avatarInitials: "BC",
   },
   {
     id: "u3",
-    name: "Csilla Tóth",
-    email: "c.toth@taskforge.io",
+    name: "Claire Stevens",
+    email: "c.stevens@taskforge.io",
     role: "engineer",
-    avatarInitials: "CT",
+    avatarInitials: "CS",
   },
   {
     id: "u4",
-    name: "Dávid Szabó",
-    email: "d.szabo@taskforge.io",
+    name: "David Park",
+    email: "d.park@taskforge.io",
     role: "engineer",
-    avatarInitials: "DS",
+    avatarInitials: "DP",
   },
 ]
 

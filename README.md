@@ -73,6 +73,8 @@ pages/                 # Next.js routing (must stay at root)
 
 ## Getting Started
 
+**Requires Node.js 22.**
+
 ```bash
 npm install
 npm run dev
