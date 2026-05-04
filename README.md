@@ -1,6 +1,6 @@
 # TaskForge
 
-A production-quality, multi-layer task management application built with Next.js 14, React 18, TypeScript, and Recoil. Created as a real-world codebase for evaluating static analysis and observability tooling (Kerno).
+A production-quality, multi-layer task management application built with Next.js 16, React 18, TypeScript, and Recoil. Created as a real-world codebase for evaluating static analysis and observability tooling (Kerno).
 
 ---
 
@@ -19,12 +19,13 @@ A production-quality, multi-layer task management application built with Next.js
 
 | Layer     | Technology                             |
 | --------- | -------------------------------------- |
-| Framework | Next.js 14 (Pages Router)              |
-| UI        | React 18                               |
-| Language  | TypeScript 5 (strict mode)             |
-| State     | Recoil 0.7                             |
-| Styling   | Pure CSS — no Tailwind, no CSS Modules |
-| Data      | In-memory store (simulated DB)         |
+| Framework  | Next.js 16 (Pages Router)              |
+| UI         | React 18                               |
+| Language   | TypeScript 5 (strict mode)             |
+| State      | Recoil 0.7                             |
+| Validation | Zod 3 (API route input validation)     |
+| Styling    | Pure CSS — no Tailwind, no CSS Modules |
+| Data       | In-memory store (simulated DB)         |
 
 ---
 
@@ -206,6 +207,7 @@ npm run build    # Production build check
 - **No direct `fetch()`** in components — use hooks only
 - **CSS variables** for all colors: `var(--bg)`, `var(--accent)`, `var(--danger)`, etc.
 - API helpers `successResponse` / `errorResponse` from `server/lib/api.ts` used in every endpoint
+- ESLint uses flat config (`eslint.config.mjs`) — ESLint 9+
 
 ---
 
