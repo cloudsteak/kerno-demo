@@ -8,14 +8,14 @@ import {
   loadingAtom,
   showCreateModalAtom,
   searchQueryAtom,
-} from "../frontend/store/atoms"
-import { useTasks, useUsers, useStats } from "../frontend/store/hooks"
-import Sidebar from "../frontend/components/Sidebar"
-import StatsBar from "../frontend/components/StatsBar"
-import TaskCard from "../frontend/components/TaskCard"
-import TaskDetailPanel from "../frontend/components/TaskDetailPanel"
-import CreateTaskModal from "../frontend/components/CreateTaskModal"
-import UsersPage from "../frontend/components/UsersPage"
+} from "../client/store/atoms"
+import { useTasks, useUsers, useStats } from "../client/store/hooks"
+import Sidebar from "../client/components/Sidebar"
+import StatsBar from "../client/components/StatsBar"
+import TaskCard from "../client/components/TaskCard"
+import TaskDetailPanel from "../client/components/TaskDetailPanel"
+import CreateTaskModal from "../client/components/CreateTaskModal"
+import UsersPage from "../client/components/UsersPage"
 
 export default function Home() {
   const { loadTasks } = useTasks()

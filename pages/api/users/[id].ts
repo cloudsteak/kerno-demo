@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { db } from "../../../backend/lib/db"
-import { successResponse, errorResponse } from "../../../backend/lib/api"
+import { db } from "../../../server/lib/db"
+import { successResponse, errorResponse } from "../../../server/lib/api"
 import type { ApiResponse, User, Task } from "../../../shared/types"
 
 interface UserWithTasks extends User {

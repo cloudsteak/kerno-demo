@@ -1,7 +1,12 @@
+import { z } from "zod"
 import type { NextApiRequest, NextApiResponse } from "next"
-import { db } from "../../../backend/lib/db"
-import { successResponse, errorResponse } from "../../../backend/lib/api"
+import { db } from "../../../server/lib/db"
+import { successResponse, errorResponse } from "../../../server/lib/api"
 import type { ApiResponse, User } from "../../../shared/types"
+
+const GetQuerySchema = z.object({
+  role: z.enum(["engineer", "lead", "manager"]).optional(),
+})
 
 export default function handler(
   req: NextApiRequest,
@@ -12,10 +17,13 @@ export default function handler(
     return res.status(status).json(body)
   }
 
-  const { role } = req.query
-  const users = db.getUsers({
-    role: typeof role === "string" ? role : undefined,
-  })
+  const parsed = GetQuerySchema.safeParse(req.query)
+  if (!parsed.success) {
+    const { status, body } = errorResponse(parsed.error.errors[0]?.message ?? "Invalid query", 400)
+    return res.status(status).json(body)
+  }
+
+  const users = db.getUsers(parsed.data)
   const { status, body } = successResponse(users)
   return res.status(status).json(body)
 }

@@ -1,7 +1,18 @@
+import { z } from "zod"
 import type { NextApiRequest, NextApiResponse } from "next"
-import { db } from "../../../backend/lib/db"
-import { successResponse, errorResponse } from "../../../backend/lib/api"
+import { db } from "../../../server/lib/db"
+import { successResponse, errorResponse } from "../../../server/lib/api"
 import type { ApiResponse, Task } from "../../../shared/types"
+
+const UpdateTaskSchema = z.object({
+  title: z.string().min(1).optional(),
+  description: z.string().optional(),
+  status: z.enum(["todo", "in_progress", "blocked", "done"]).optional(),
+  priority: z.enum(["low", "medium", "high", "critical"]).optional(),
+  assigneeId: z.string().nullable().optional(),
+  dueDate: z.string().nullable().optional(),
+  tags: z.array(z.string()).optional(),
+})
 
 export default function handler(
   req: NextApiRequest,
@@ -24,29 +35,16 @@ export default function handler(
   }
 
   if (req.method === "PUT") {
-    const task = db.getTask(id)
-    if (!task) {
-      const { status, body } = errorResponse("Task not found", 404)
+    const parsed = UpdateTaskSchema.safeParse(req.body)
+    if (!parsed.success) {
+      const { status, body } = errorResponse(parsed.error.errors[0]?.message ?? "Invalid body", 400)
       return res.status(status).json(body)
     }
-    const { title, description, status: taskStatus, priority, assigneeId, dueDate, tags } =
-      req.body
-
-    const updated = db.updateTask(id, {
-      ...(typeof title === "string" ? { title } : {}),
-      ...(typeof description === "string" ? { description } : {}),
-      ...(taskStatus !== undefined ? { status: taskStatus } : {}),
-      ...(priority !== undefined ? { priority } : {}),
-      ...(assigneeId !== undefined ? { assigneeId } : {}),
-      ...(dueDate !== undefined ? { dueDate } : {}),
-      ...(Array.isArray(tags) ? { tags } : {}),
-    })
-
+    const updated = db.updateTask(id, parsed.data)
     if (!updated) {
       const { status, body } = errorResponse("Task not found", 404)
       return res.status(status).json(body)
     }
-
     const { status, body } = successResponse(updated, "Task updated")
     return res.status(status).json(body)
   }

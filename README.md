@@ -33,7 +33,7 @@ A production-quality, multi-layer task management application built with Next.js
 The codebase is organized into four top-level tiers:
 
 ```
-frontend/
+client/
 ├── components/        # React UI components
 │   ├── Sidebar.tsx        # Navigation + status filter
 │   ├── StatsBar.tsx       # KPI bar (6 metrics)
@@ -47,7 +47,7 @@ frontend/
 └── styles/
     └── globals.css    # Industrial dark theme + CSS variables
 
-backend/
+server/
 └── lib/
     ├── db.ts          # In-memory data store (simulated DB)
     └── api.ts         # successResponse / errorResponse helpers
@@ -172,7 +172,7 @@ interface Stats {
 
 ## State Management
 
-Recoil atoms live in `frontend/store/atoms.ts`. All data fetching goes through custom hooks in `frontend/store/hooks.ts` — components never call `fetch()` directly.
+Recoil atoms live in `client/store/atoms.ts`. All data fetching goes through custom hooks in `client/store/hooks.ts` — components never call `fetch()` directly.
 
 | Atom                    | Type                      | Purpose                                |
 | ----------------------- | ------------------------- | -------------------------------------- |
@@ -205,7 +205,7 @@ npm run build    # Production build check
 - **No inline styles** except for dynamic CSS variable values
 - **No direct `fetch()`** in components — use hooks only
 - **CSS variables** for all colors: `var(--bg)`, `var(--accent)`, `var(--danger)`, etc.
-- API helpers `successResponse` / `errorResponse` from `backend/lib/api.ts` used in every endpoint
+- API helpers `successResponse` / `errorResponse` from `server/lib/api.ts` used in every endpoint
 
 ---
 
@@ -220,4 +220,4 @@ npm run build    # Production build check
 
 ## Extending the Data Layer
 
-`backend/lib/db.ts` is the only file that touches data. It currently uses in-memory arrays. To swap in a real database, replace only this file — the API routes and everything above it stay unchanged.
+`server/lib/db.ts` is the only file that touches data. It currently uses in-memory arrays. To swap in a real database, replace only this file — the API routes and everything above it stay unchanged.

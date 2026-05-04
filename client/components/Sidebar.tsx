@@ -1,3 +1,4 @@
+import { useMemo } from "react"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import {
   statusFilterAtom,
@@ -5,15 +6,8 @@ import {
   showCreateModalAtom,
   tasksAtom,
 } from "../store/atoms"
+import { STATUS_FILTERS } from "../../shared/types"
 import type { TaskStatus } from "../../shared/types"
-
-const STATUS_FILTERS: { label: string; value: TaskStatus | "all"; color: string }[] = [
-  { label: "All", value: "all", color: "var(--text-3)" },
-  { label: "Todo", value: "todo", color: "var(--text-3)" },
-  { label: "In Progress", value: "in_progress", color: "var(--accent)" },
-  { label: "Blocked", value: "blocked", color: "var(--danger)" },
-  { label: "Done", value: "done", color: "var(--success)" },
-]
 
 export default function Sidebar() {
   const statusFilter = useRecoilValue(statusFilterAtom)
@@ -23,10 +17,19 @@ export default function Sidebar() {
   const setShowCreateModal = useSetRecoilState(showCreateModalAtom)
   const tasks = useRecoilValue(tasksAtom)
 
-  function countByStatus(s: TaskStatus | "all") {
-    if (s === "all") return tasks.length
-    return tasks.filter((t) => t.status === s).length
-  }
+  const countByStatus = useMemo(() => {
+    const counts: Record<TaskStatus | "all", number> = {
+      all: tasks.length,
+      todo: 0,
+      in_progress: 0,
+      blocked: 0,
+      done: 0,
+    }
+    for (const t of tasks) {
+      counts[t.status]++
+    }
+    return counts
+  }, [tasks])
 
   return (
     <aside className="sidebar">
@@ -78,7 +81,7 @@ export default function Sidebar() {
                 />
                 {f.label}
               </span>
-              <span className="sidebar__badge">{countByStatus(f.value)}</span>
+              <span className="sidebar__badge">{countByStatus[f.value]}</span>
             </button>
           ))}
         </div>
